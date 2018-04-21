@@ -80,6 +80,7 @@ def _sumthreshold(data, mask, i, chi, ds0, ds1):
                 
     return tmp_mask
 
+
 def _run_sumthreshold(data, init_mask, eta, M, chi_i, sm_kwargs, plotting=True):
     """
     Perform one SumThreshold operation: sum the un-masked data after
@@ -115,6 +116,7 @@ def _run_sumthreshold(data, init_mask, eta, M, chi_i, sm_kwargs, plotting=True):
         
     return st_mask
 
+
 def binary_mask_dilation(mask, struct_size_0, struct_size_1):
     """
     Dilates the mask.
@@ -143,6 +145,7 @@ def normalize(data, mask):
     data = np.abs(data - median)
     return data.data
 
+
 def get_rfi_mask(tod, mask=None, chi_1=35000, eta_i=[0.5, 0.55, 0.62, 0.75, 1], normalize_standing_waves=True, suppress_dilation=False, plotting=True, sm_kwargs=None, di_kwargs=None):
     """
     Computes a mask to cover the RFI in a data set.
@@ -164,14 +167,17 @@ def get_rfi_mask(tod, mask=None, chi_1=35000, eta_i=[0.5, 0.55, 0.62, 0.75, 1], 
     if mask is None:
         mask = get_empty_mask(data.shape)
     
-    if sm_kwargs is None: sm_kwargs = get_sm_kwargs()
+    if sm_kwargs is None:
+        sm_kwargs = get_sm_kwargs()
     
-    if plotting: sum_threshold_utils.plot_moments(data)
+    if plotting:
+        sum_threshold_utils.plot_moments(data)
 
     if normalize_standing_waves:
         data = normalize(data, mask)
 
-        if plotting: sum_threshold_utils.plot_moments(data)
+        if plotting:
+            sum_threshold_utils.plot_moments(data)
     
     p = 1.5
     m = np.arange(1, MAX_PIXELS)
@@ -184,13 +190,16 @@ def get_rfi_mask(tod, mask=None, chi_1=35000, eta_i=[0.5, 0.55, 0.62, 0.75, 1], 
 
     dilated_mask = st_mask
     if not suppress_dilation:
-        if di_kwargs is None: di_kwargs = get_di_kwrags()
+        if di_kwargs is None:
+            di_kwargs = get_di_kwrags()
 
-        dilated_mask = binary_mask_dilation(dilated_mask - mask, **di_kwargs)
+        dilated_mask = binary_mask_dilation(dilated_mask ^ mask, **di_kwargs)
     
-        if plotting: sum_threshold_utils.plot_dilation(st_mask, mask, dilated_mask)
+        if plotting:
+            sum_threshold_utils.plot_dilation(st_mask, mask, dilated_mask)
         
     return dilated_mask+mask
+
 
 def get_sm_kwargs(kernel_m=KERNEL_M, kernel_n=KERNEL_N, sigma_m=SIGMA_M, sigma_n=SIGMA_N):
     """
@@ -205,6 +214,7 @@ def get_sm_kwargs(kernel_m=KERNEL_M, kernel_n=KERNEL_N, sigma_m=SIGMA_M, sigma_n
     """
     return dict(M=kernel_m, N=kernel_n, sigma_m=sigma_m, sigma_n=sigma_n)
 
+
 def get_di_kwrags(struct_size_0=STRUCT_SIZE, struct_size_1=STRUCT_SIZE):
     """
     Creates a dict with the dilation keywords.
@@ -215,6 +225,7 @@ def get_di_kwrags(struct_size_0=STRUCT_SIZE, struct_size_1=STRUCT_SIZE):
     :return: dictionary with the dilation keywords
     """
     return dict(struct_size_0=struct_size_0, struct_size_1=struct_size_1)
+
 
 def get_sumthreshold_kwargs(params):
     """
@@ -232,6 +243,7 @@ def get_sumthreshold_kwargs(params):
     di_kwargs = get_di_kwrags(params.struct_size_0, params.struct_size_1)
     
     return sm_kwargs, di_kwargs
+
 
 def rm_rfi(ctx):
     """

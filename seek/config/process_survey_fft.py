@@ -45,7 +45,8 @@ strategy_start = "2015-12-14-00:00:00"      # survey start time. Format YYYY-mm-
 strategy_end   = "2016-04-04-23:59:00"      # survey end time. Format YYYY-mm-dd-HH:MM:SS
 
 spectrometer = "M9703A"
-data_file_prefix = "HIMap_RSG7M_A1_24_MP_PXX_Z0_C0-M9703A_DPUA_"                 # First part of fit file name
+# data_file_prefix = "HIMap_RSG7M_A1_24_MP_PXX_Z0_C0-M9703A_DPUA_"                 # First part of fit file name
+data_file_prefix = 'TEST_MP_PXX_'
 data_file_suffix = ".h5"          # Suffix of file name
 file_type = "hdf5"
 

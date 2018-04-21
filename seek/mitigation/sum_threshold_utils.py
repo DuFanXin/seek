@@ -58,7 +58,7 @@ def plot_data(data, ax, title, vmin=None, vmax=None, cb=True, norm=None, extent=
     if cb:
         divider = make_axes_locatable(ax)
         cax = divider.append_axes("right", size="20%", pad=0.05)
-        cbar = pylab.colorbar(im, cax=cax)
+        # cbar = pylab.colorbar(im, cax=cax)
 
 def plot_moments(data):
     """
@@ -113,7 +113,7 @@ def plot_dilation(st_mask, mask, dilated_mask):
     fig, ax = pylab.subplots(2,2, figsize=(15,8))
     fig.suptitle("Mask analysis")
     plot_data(mask, ax[0,0], "Original mask")
-    plot_data(st_mask.astype(np.bool)-mask, ax[0,1], "Sum threshold mask", 0, 1)
+    plot_data(st_mask.astype(np.bool) ^ mask, ax[0,1], "Sum threshold mask", 0, 1)
     plot_data(dilated_mask, ax[1,0], "dilated mask")
     plot_data(dilated_mask+mask, ax[1,1], "New mask")
     fig.show()
